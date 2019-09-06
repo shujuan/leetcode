@@ -7,29 +7,21 @@ public:
      */
     int kthSmallest(int k, vector<int> &nums) {
         // write your code here
-        
-        return quickSelect(nums, 0, nums.size()-1, k-1);
-       
-    }
-    
-    
-    int quickSelect(vector<int>& nums, int start, int end, int k) {
-        int i=start, j= end;
-        
-        int pivot = nums[(start+end)/2];
-        if(i == j) return pivot;
-        while(i<=j){
-            while(i<=j && nums[i] <pivot) i++;
-            while(i<=j && nums[j] > pivot) j--;
-            if(i<=j) {
-                swap(nums[i++], nums[j--]);
+        int start=0, end = nums.size()-1;
+        while(start<=end) {
+            int left = start+1, right = end;
+            int pivot = nums[start];
+            while(left<=right) {
+                while(left<=right && nums[left] <= pivot) left++;
+                while(left<=right && nums[right] >= pivot) right--;
+                if(left <= right) swap(nums[left++], nums[right--]);
             }
+            
+            swap(nums[start], nums[right]);
+            if(right == k-1) return pivot;
+            else if(right >k-1) end = right-1;
+            else start = right+1;
         }
-       
-        if(j>=k && start <= j) return quickSelect(nums, start, j, k);
-        else if(i<=k && end >=i) return quickSelect(nums, i, end, k);
-        else return pivot;
-        
         
     }
 };
