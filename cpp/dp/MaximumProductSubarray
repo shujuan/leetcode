@@ -1,0 +1,25 @@
+class Solution {
+public:
+    /**
+     * @param nums: An array of integers
+     * @return: An integer
+     */
+    int maxProduct(vector<int> &nums) {
+        // write your code here
+       int n = nums.size();
+       if(!n) return 0;
+       int maxi = nums[0], mini = nums[0], res = nums[0];
+       for (int i=1; i<n; i++) {
+           if(nums[i] >0) {
+               maxi = max(maxi*nums[i], nums[i]);
+               mini = min(mini*nums[i], nums[i]);
+           } else {
+               int tmp = maxi;
+               maxi = max(mini*nums[i], nums[i]);
+               mini = min(tmp*nums[i], nums[i]);
+           }
+           res = max(res, maxi);
+       }
+       return res;
+    }
+};
